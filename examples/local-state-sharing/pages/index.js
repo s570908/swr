@@ -69,6 +69,7 @@ function Dish() {
       type="button"
       onClick={() => {
         setData({...data, dish:dish} );
+        setData({...data, spicy: {hot:'very hot'}} );
       }}
     >
       Order my dish
@@ -90,7 +91,8 @@ function Other() {
         Another Component: <br />
         My name is {data.name}. <br />
         I am  using {data.os}. <br />
-        I am ordering: {dataDish.dish}
+        I am ordering: {dataDish.dish}. <br />
+        {dataDish.spicy?.hot != undefined ? <span>Spicy: {dataDish.spicy.hot}.</span> : null}
       </h1>
     </div>
   )
