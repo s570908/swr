@@ -2,7 +2,8 @@ import useSWR from "swr"
 import getObj from "../utils/getObj"
 
 const initStore = {
-	initInfo: {name:'John', os:'Window'}
+	initInfo: {name:'John', os:'Window'},
+	initDish: {dish: 'Hamburger', price:'$100'}
 }
 
 const useSharedState = (key, initObj) => {

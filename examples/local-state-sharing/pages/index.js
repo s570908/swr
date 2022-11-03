@@ -22,7 +22,7 @@ function Profile() {
           setData({...data, name: value})
         }}
       >
-        Uppercase my name!
+        Input my name
       </button>
     </div>
   )
@@ -46,7 +46,32 @@ function SysInfo() {
         setData({...data, os:os} );
       }}
     >
-      Write your OS !
+      Write my OS
+    </button>
+  </div>
+  )
+
+}
+
+function Dish() {
+  const [data, setData] = useSharedState('dish', 'initDish');
+  const [dish, setDish] = useState(data.dish);
+
+  return (
+    <div>
+    <h1>I am  ordering {data.dish}.</h1>
+    <input
+      value={dish}
+      onChange={e => setDish(e.target.value)}
+      style={{ width: 200, marginRight: 8 }}
+    />
+    <button
+      type="button"
+      onClick={() => {
+        setData({...data, dish:dish} );
+      }}
+    >
+      Order my dish
     </button>
   </div>
   )
@@ -55,6 +80,7 @@ function SysInfo() {
 
 function Other() {
   const [ data ] = useSharedState('info', 'initInfo');
+  const [ dataDish ] = useSharedState('dish', 'initDish');
   if (!data) {
     return null
   }
@@ -63,7 +89,8 @@ function Other() {
       <h1>
         Another Component: <br />
         My name is {data.name}. <br />
-        I am  using {data.os}.
+        I am  using {data.os}. <br />
+        I am ordering: {dataDish.dish}
       </h1>
     </div>
   )
@@ -75,6 +102,7 @@ export default function Index() {
       useSWR can share state between components:
       <Profile />
       <SysInfo />
+      < Dish />
       <Other />
     </div>
   )
