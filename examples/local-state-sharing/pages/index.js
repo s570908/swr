@@ -1,18 +1,9 @@
 import { useState } from "react"
-import initialStore from "../libs/store"
+import useSharedState from "../libs/store"
 import useSWR, { mutate } from "swr"
 
-const useSharedState = (key, initial) => {
-  console.log(key, initial)
-  const { data: state, mutate: setState } = useSWR(key, {
-    fallbackData: initial,
-  })
-
-  return [state, setState]
-}
-
 function Profile() {
-  const { data } = useSWR("globalState", { fallbackData: initialStore })
+  const [data, setData] = useSharedState('info', 'initInfo');
   const [value, updateValue] = useState((data || {}).name)
   if (!data) {
     return null
@@ -28,7 +19,7 @@ function Profile() {
       <button
         type="button"
         onClick={() => {
-          mutate("globalState", { ...data, name: value }, false)
+          setData({...data, name: value})
         }}
       >
         Uppercase my name!
@@ -38,14 +29,12 @@ function Profile() {
 }
 
 function SysInfo() {
-  const [data, setData] = useSharedState('os', 'Window');
-  const [os, setOs] = useState(data);
-  console.log(os, setOs)
-  console.log(data, setData)
+  const [data, setData] = useSharedState('info', 'initInfo');
+  const [os, setOs] = useState(data.os);
 
   return (
     <div>
-    <h1>I am  using {data}.</h1>
+    <h1>I am  using {data.os}.</h1>
     <input
       value={os}
       onChange={e => setOs(e.target.value)}
@@ -54,7 +43,7 @@ function SysInfo() {
     <button
       type="button"
       onClick={() => {
-        setData(os);
+        setData({...data, os:os} );
       }}
     >
       Write your OS !
@@ -65,8 +54,7 @@ function SysInfo() {
 }
 
 function Other() {
-  const { data } = useSWR("globalState", { fallbackData: initialStore })
-  const [ sysOS, setSysOS] = useSharedState('os', 'Window');
+  const [ data ] = useSharedState('info', 'initInfo');
   if (!data) {
     return null
   }
@@ -75,7 +63,7 @@ function Other() {
       <h1>
         Another Component: <br />
         My name is {data.name}. <br />
-        I am  using {sysOS}.
+        I am  using {data.os}.
       </h1>
     </div>
   )
