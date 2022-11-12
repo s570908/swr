@@ -32,6 +32,9 @@ function SysInfo() {
   const [data, setData] = useSharedState('info', 'initInfo');
   const [os, setOs] = useState(data.os);
 
+  const [test, setTest] = useSharedState('test', 'initTest', {main:{cpu: "intel", clock:"10G"}, board: {maker:'ASUS', year:"2020"}});
+  const [maker, setMaker] = useState(test.board.maker);
+
   return (
     <div>
     <h1>I am  using {data.os}.</h1>
@@ -51,6 +54,34 @@ function SysInfo() {
   </div>
   )
 
+}
+
+function SysHardware() {
+  // 여기에서 세번째 argument로 초기화하는 것은 좋은 예제는 아니다.
+  // 초기화는 store.js에서 하고 세번째 argumenmt는 사용하지 않는 것이 좋다.
+  // 이 에제에서는 nested object를 사용하여 store.js가 아닌 곳에서도 초기화를 할 수 있음을 보여 주기 위한 것이다. 다시 말하지만 좋은 방법은 아니다. 
+  // 즉 useSharedState에서는 초기화하는 세번째 arguemnt를 정의하지 않는 것이 좋은 방법이다.  
+  const [test, setTest] = useSharedState('test', 'initTest', {main:{cpu: "intel", clock:"10G"}, board: {maker:'ASUS', year:"2020"}});
+  const [maker, setMaker] = useState(test.board.maker);
+
+  return (
+  <div>
+    <h1>I am  testing {test.board.maker}.</h1>
+    <input
+      value={maker}
+      onChange={e => setMaker(e.target.value)}
+      style={{ width: 200, marginRight: 8 }}
+    />
+    <button
+      type="button"
+      onClick={() => {
+        setTest({...test, board: {maker:maker}})
+      }}
+    >
+      Write my board maker
+    </button>
+  </div>
+  )
 }
 
 function Dish() {
@@ -82,6 +113,7 @@ function Dish() {
 function Other() {
   const [ data ] = useSharedState('info', 'initInfo');
   const [ dataDish ] = useSharedState('dish', 'initDish');
+  const [ test ] = useSharedState('test', 'initTest');
   if (!data) {
     return null
   }
@@ -91,7 +123,8 @@ function Other() {
         Another Component: <br />
         My name is {data.name}. <br />
         I am  using {data.os}. <br />
-        I am ordering: {dataDish.dish}. <br />
+        My board is made in: {test.board.maker}. <br />
+        I am ordering: {dataDish.dish}. <br />        
         {dataDish.spicy?.hot != undefined ? <span>Spicy: {dataDish.spicy.hot}.</span> : null}
       </h1>
     </div>
@@ -104,8 +137,9 @@ export default function Index() {
       useSWR can share state between components:
       <Profile />
       <SysInfo />
+      <SysHardware />
       < Dish />
-      <Other />
+      < Other />
     </div>
   )
 }
