@@ -32,7 +32,7 @@ function SysInfo() {
   const [data, setData] = useSharedState('info', 'initInfo');
   const [os, setOs] = useState(data.os);
 
-  const [test, setTest] = useSharedState('test', 'initTest', {main:{cpu: "intel", clock:"10G"}, board: {maker:'ASUS', year:"2020"}});
+  const [test, setTest] = useSharedState('test', 'initTest');
   const [maker, setMaker] = useState(test.board.maker);
 
   return (
