@@ -1,4 +1,3 @@
-import { useDeferredValue } from "react"
 import useSWR from "swr"
 import getObj from "../utils/getObj"
 
@@ -9,17 +8,17 @@ const initStore = {
 }
 
 const useSharedState = (key, initObj) => {
-  console.log(key, initObj)
-	console.log('getObj(initStore, initObj): ', getObj(initStore, initObj))
+  //console.log(key, initObj)
+	//console.log('getObj(initStore, initObj): ', getObj(initStore, initObj))
 	if(!getObj(initStore, initObj)) {
 		console.log(`${initObj} is not in initStore`)
 	}
 
-	console.log("Before useSWR: ", initStore)
+	//console.log("Before useSWR: ", initStore)
   const { data: state, mutate: setState } = useSWR(key, {
     fallbackData: getObj(initStore, initObj),
   })
-	console.log("After useSWR: ", initStore)
+	//console.log("After useSWR: ", initStore)
 
   return [state, setState]
 }

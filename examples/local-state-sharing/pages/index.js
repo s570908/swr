@@ -99,8 +99,7 @@ function Dish() {
     <button
       type="button"
       onClick={() => {
-        setData({...data, dish:dish} );
-        setData({...data, spicy: {hot:'very hot'}} );
+        setData({...data, dish:dish, spicy: {hot:'very hot'} });
       }}
     >
       Order my dish
