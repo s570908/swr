@@ -88,6 +88,8 @@ function Dish() {
   const [data, setData] = useSharedState('dish', 'initDish');
   const [dish, setDish] = useState(data.dish);
 
+  console.log("Dish(): ", JSON.stringify(data, null, 2))
+
   return (
     <div>
     <h1>I am  ordering {data.dish}.</h1>
@@ -99,7 +101,7 @@ function Dish() {
     <button
       type="button"
       onClick={() => {
-        setData({...data, dish:dish, spicy: {hot:'very hot'} });
+        setData({...data, dish:dish, spicy: {source: {hot:'very hot'}, quanty: 100}  });
       }}
     >
       Order my dish
